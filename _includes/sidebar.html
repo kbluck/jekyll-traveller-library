@@ -36,7 +36,8 @@
     <ul class="space-y-0.5 mt-1">
       {%- for npc in site.npcs -%}
         <li>
-          <a href="{{ npc.url | relative_url }}" class="sidebar-link">
+          <a href="{{ npc.url | relative_url }}"
+             class="sidebar-link {% if page.url == npc.url %}sidebar-link--active{% endif %}">
             {{ npc.title | truncate: 30 }}
           </a>
         </li>
@@ -52,27 +53,103 @@
     {%- endif -%}
   </section>
 
-  <!-- ── Locations ───────────────────────────────────────── -->
+  <!-- ── Locations (hierarchical tree) ─────────────────── -->
   <section>
     <h3 class="sidebar-section-header">
       <span class="text-cyan-500 text-[10px]">◈</span> Locations
     </h3>
-    <ul class="space-y-0.5 mt-1">
-      {%- for location in site.locations -%}
-        <li>
-          <a href="{{ location.url | relative_url }}" class="sidebar-link">
-            {{ location.title | truncate: 30 }}
-          </a>
-        </li>
-      {%- else -%}
-        <li class="sidebar-empty">No locations charted</li>
+
+    {%- assign _loc_domains = site.locations | where: "type", "domain" | sort: "title" -%}
+
+    {%- if site.locations.size == 0 -%}
+      <p class="sidebar-empty">No locations charted</p>
+    {%- else -%}
+    <div class="mt-1 space-y-px">
+
+      {%- for domain in _loc_domains -%}
+        {%- assign _d_sectors = site.locations | where: "type", "sector" | where: "parent", domain.slug | sort: "title" -%}
+
+        {%- if _d_sectors.size > 0 -%}
+        <details {% if page.url contains domain.url %}open{% endif %}>
+          <summary class="sidebar-tree-row">
+            <span class="sidebar-tree-chevron" aria-hidden="true">▸</span>
+            <a href="{{ domain.url | relative_url }}"
+               onclick="event.stopPropagation()"
+               class="sidebar-tree-label {% if page.url == domain.url %}sidebar-tree-label--active{% endif %}">
+              {{- domain.title | truncate: 24 -}}
+            </a>
+          </summary>
+          <div class="sidebar-tree-children">
+
+            {%- for sector in _d_sectors -%}
+              {%- assign _s_subsectors = site.locations | where: "type", "subsector" | where: "parent", sector.slug | sort: "title" -%}
+
+              {%- if _s_subsectors.size > 0 -%}
+              <details {% if page.url contains sector.url %}open{% endif %}>
+                <summary class="sidebar-tree-row">
+                  <span class="sidebar-tree-chevron" aria-hidden="true">▸</span>
+                  <a href="{{ sector.url | relative_url }}"
+                     onclick="event.stopPropagation()"
+                     class="sidebar-tree-label {% if page.url == sector.url %}sidebar-tree-label--active{% endif %}">
+                    {{- sector.title | truncate: 24 -}}
+                  </a>
+                </summary>
+                <div class="sidebar-tree-children">
+
+                  {%- for subsector in _s_subsectors -%}
+                    {%- assign _ss_worlds = site.locations | where: "type", "world" | where: "parent", subsector.slug | sort: "title" -%}
+
+                    {%- if _ss_worlds.size > 0 -%}
+                    <details {% if page.url contains subsector.url %}open{% endif %}>
+                      <summary class="sidebar-tree-row">
+                        <span class="sidebar-tree-chevron" aria-hidden="true">▸</span>
+                        <a href="{{ subsector.url | relative_url }}"
+                           onclick="event.stopPropagation()"
+                           class="sidebar-tree-label {% if page.url == subsector.url %}sidebar-tree-label--active{% endif %}">
+                          {{- subsector.title | truncate: 24 -}}
+                        </a>
+                      </summary>
+                      <div class="sidebar-tree-children">
+                        {%- for world in _ss_worlds -%}
+                        <a href="{{ world.url | relative_url }}"
+                           class="sidebar-link {% if page.url == world.url %}sidebar-link--active{% endif %}">
+                          {{- world.title | truncate: 24 -}}
+                        </a>
+                        {%- endfor -%}
+                      </div>
+                    </details>
+
+                    {%- else -%}
+                    <a href="{{ subsector.url | relative_url }}"
+                       class="sidebar-link {% if page.url == subsector.url %}sidebar-link--active{% endif %}">
+                      {{- subsector.title | truncate: 24 -}}
+                    </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                </div>
+              </details>
+
+              {%- else -%}
+              <a href="{{ sector.url | relative_url }}"
+                 class="sidebar-link {% if page.url == sector.url %}sidebar-link--active{% endif %}">
+                {{- sector.title | truncate: 24 -}}
+              </a>
+              {%- endif -%}
+            {%- endfor -%}
+
+          </div>
+        </details>
+
+        {%- else -%}
+        <a href="{{ domain.url | relative_url }}"
+           class="sidebar-link {% if page.url == domain.url %}sidebar-link--active{% endif %}">
+          {{- domain.title | truncate: 24 -}}
+        </a>
+        {%- endif -%}
       {%- endfor -%}
-    </ul>
-    {%- if site.locations.size > 0 -%}
-    <a href="{{ '/locations/' | relative_url }}"
-       class="inline-block mt-2 ml-3 text-[10px] tracking-wider uppercase text-cyan-600 hover:text-cyan-400 transition-colors">
-      View all &rsaquo;
-    </a>
+
+    </div>
     {%- endif -%}
   </section>
 
@@ -84,7 +161,8 @@
     <ul class="space-y-0.5 mt-1">
       {%- for faction in site.factions -%}
         <li>
-          <a href="{{ faction.url | relative_url }}" class="sidebar-link">
+          <a href="{{ faction.url | relative_url }}"
+             class="sidebar-link {% if page.url == faction.url %}sidebar-link--active{% endif %}">
             {{ faction.title | truncate: 30 }}
           </a>
         </li>

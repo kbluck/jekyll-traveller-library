@@ -148,6 +148,53 @@ body::after {
   }
 }
 
+/* ── Sidebar location tree ─────────────────────────────────────── */
+
+@layer components {
+  /* summary element — styled like sidebar-link with a chevron icon slot */
+  .sidebar-tree-row {
+    @apply flex items-center gap-1.5 py-0.5 pl-3
+           text-sm text-gray-400 cursor-pointer select-none
+           border-l-2 border-transparent
+           transition-all duration-150;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &::marker                 { display: none; }
+
+    &:hover {
+      @apply text-cyan-300 border-cyan-500;
+    }
+  }
+
+  .sidebar-tree-chevron {
+    @apply text-gray-700 text-[8px] shrink-0 transition-transform duration-150;
+  }
+
+  details[open] > .sidebar-tree-row > .sidebar-tree-chevron {
+    transform: rotate(90deg);
+  }
+
+  .sidebar-tree-label {
+    @apply flex-1 min-w-0 truncate;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sidebar-tree-label--active {
+    @apply text-cyan-300;
+  }
+
+  .sidebar-tree-children {
+    @apply pl-3;
+    border-left: 1px solid rgba(34, 211, 238, 0.12);
+  }
+
+  .sidebar-link--active {
+    @apply text-cyan-300 border-cyan-500;
+  }
+}
+
 /* ── Tag keyword badges ─────────────────────────────────────────── */
 
 @layer components {

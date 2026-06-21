@@ -25,6 +25,7 @@
       "Bash(git push *)",
       "Bash(git reset *)",
       "Bash(git stash *)",
+      "Bash(grep *)",
       "Bash(mkdir *)",
       "Bash(npm *)",
       "Bash(sed *)",
