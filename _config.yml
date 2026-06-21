@@ -1,0 +1,72 @@
+# This config file is meant for settings that affect the entire site, values
+# that we expect to set up once and rarely edit after that. Config values
+# that are updated more frequently should be stored in Jekyll data instead.
+#
+# For technical reasons, this file is *not* reloaded automatically when using
+# 'bundle exec jekyll serve'. If you change this file, restart the server.
+#
+# Tutorials/references for YAML syntax and formatting:
+# https://learnxinyminutes.com/docs/yaml/
+# https://learntheweb.courses/topics/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be available
+# in the templates via {{ site.myvariable }}.
+
+title: Library Data
+description: >-
+  Traveller Library Data for My Traveller Universe.
+
+# URL settings
+url:       ""                    # Hostname & protocol for site.
+baseurl:   /                     # Virtual folder for site.
+permalink: /:collection/:path/   # Permalink pattern for collections.
+
+# Lore collections
+collections:
+  factions:
+    permalink: /factions/:path/
+    output:    true
+  locations:
+    permalink: /locations/:path/
+    output:    true
+  npcs:
+    permalink: /npcs/:path/
+    output:    true
+
+# Author settings
+author_name:    Kevin Bluck
+author_email:   kevin.bluck@gmail.com
+author_github:  kbluck
+author_twitter: kevinbluck
+
+# Build settings
+theme:       minima
+markdown:    kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+
+# Include in processing.
+# The following items will be processed.
+include:
+  - _pages
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Items within the list of exclusions can instead be processed by explicitly
+# listing the directory or file path in the `include:` list.
+exclude:
+   - .jekyll-cache/
+   - .sass-cache/
+   - .vendor/
+   - gemfiles/
+   - Gemfile
+   - Gemfile.lock
+   - node_modules/
