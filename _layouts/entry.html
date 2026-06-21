@@ -6,18 +6,28 @@ layout: default
   entry.html — wiki article layout for NPCs, Locations, Factions, etc.
 
   Renders:
-    1. entity-meta infobox (floated right via entity-meta.html)
-    2. Page content markdown (flows around the infobox)
-    3. Tags section (below the float)
+    1. Location breadcrumb (locations only — if page.parent is set)
+    2. entity-meta infobox (floated right)
+    3. Page content markdown (flows around the infobox)
+    4. Direct child locations (locations only)
+    5. Tags section
 
   Page title is rendered by default.html above the prose area.
-  Do NOT add {% include entity-meta.html %} inside the content file itself
-  when using this layout — it is already included here.
+  Do NOT add {% include entity-meta.html %} inside content files using this
+  layout — it is already included here.
 {%- endcomment -%}
+
+{%- if page.collection == 'locations' -%}
+  {%- include location-breadcrumb.html -%}
+{%- endif -%}
 
 {%- include entity-meta.html -%}
 
 {{ content }}
+
+{%- if page.collection == 'locations' -%}
+  {%- include location-children.html -%}
+{%- endif -%}
 
 {%- if page.tags.size > 0 -%}
 <div class="clear-right mt-10 pt-5" style="border-top: 1px solid rgba(34,211,238,0.15);">

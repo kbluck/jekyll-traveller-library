@@ -3,7 +3,7 @@ layout: entry
 title: "Anya Voss"
 status: Active
 faction: Free Traders Guild
-location: Regina / Spinward Marches
+location: regina
 race: Human (Solomani)
 class: Merchant Captain
 tags:

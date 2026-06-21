@@ -1,0 +1,48 @@
+{%- comment -%}
+  location-breadcrumb.html — ancestor navigation for location entries.
+
+  Walks up the parent chain via slug lookups (max 3 ancestors = 4 levels deep:
+  Domain › Sector › Subsector › World). Renders nothing when page.parent is unset.
+
+  Requires the page to be a _locations/ collection document so that page.slug
+  is correctly set from the filename.
+{%- endcomment -%}
+
+{%- if page.parent -%}
+
+{%- assign _l1 = site.locations | where: "slug", page.parent | first -%}
+{%- if _l1.parent -%}
+  {%- assign _l2 = site.locations | where: "slug", _l1.parent | first -%}
+  {%- if _l2.parent -%}
+    {%- assign _l3 = site.locations | where: "slug", _l2.parent | first -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if _l1 -%}
+<nav class="mb-5 flex flex-wrap items-center gap-x-1.5 gap-y-1
+            text-[10px] tracking-[0.15em] uppercase"
+     aria-label="Location hierarchy">
+  {%- if _l3 -%}
+  <a href="{{ _l3.url | relative_url }}"
+     class="text-cyan-700 hover:text-cyan-500 transition-colors duration-150">
+    {{- _l3.title | escape -}}
+  </a>
+  <span class="text-gray-800 select-none" aria-hidden="true">›</span>
+  {%- endif -%}
+  {%- if _l2 -%}
+  <a href="{{ _l2.url | relative_url }}"
+     class="text-cyan-700 hover:text-cyan-500 transition-colors duration-150">
+    {{- _l2.title | escape -}}
+  </a>
+  <span class="text-gray-800 select-none" aria-hidden="true">›</span>
+  {%- endif -%}
+  <a href="{{ _l1.url | relative_url }}"
+     class="text-cyan-700 hover:text-cyan-500 transition-colors duration-150">
+    {{- _l1.title | escape -}}
+  </a>
+  <span class="text-gray-800 select-none" aria-hidden="true">›</span>
+  <span class="text-gray-500">{{ page.title | escape }}</span>
+</nav>
+{%- endif -%}
+
+{%- endif -%}

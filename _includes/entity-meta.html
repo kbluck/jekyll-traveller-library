@@ -1,21 +1,46 @@
 {%- comment -%}
   entity-meta.html — wiki infobox for NPCs, locations, factions, etc.
-  Reads from page front matter: status, faction, location, race, class.
-  Place {% include entity-meta.html %} at the top of content, before prose.
+
+  NPC fields:      status, faction, location (slug or plain text), race, class
+  Location fields: type, parent (auto-labeled from parent's type), uwp,
+                   allegiance, position, bases
+
+  'location' accepts either a slug of a _locations/ document (rendered as
+  a link) or a free-text string (rendered as plain text — backward-compat).
 {%- endcomment -%}
 
 {%- assign _has_meta = false -%}
-{%- if page.status or page.faction or page.location or page.race or page.class -%}
+{%- if page.status  or page.faction    or page.location or page.race  or page.class
+     or page.type   or page.parent     or page.uwp      or page.allegiance
+     or page.position or page.bases -%}
   {%- assign _has_meta = true -%}
 {%- endif -%}
 
 {%- if _has_meta -%}
 
-{%- comment -%} Map collection slug to a readable label {%- endcomment -%}
-{%- assign _meta_label = 'Entity Data' -%}
-{%- if page.collection == 'npcs' -%}{%- assign _meta_label = 'NPC' -%}
-{%- elsif page.collection == 'locations' -%}{%- assign _meta_label = 'Location' -%}
-{%- elsif page.collection == 'factions' -%}{%- assign _meta_label = 'Faction' -%}
+{%- comment -%} Header label: use type name for location entries {%- endcomment -%}
+{%- if page.collection == 'locations' and page.type -%}
+  {%- assign _meta_label = page.type | capitalize -%}
+{%- elsif page.collection == 'locations' -%}
+  {%- assign _meta_label = 'Location' -%}
+{%- elsif page.collection == 'npcs' -%}
+  {%- assign _meta_label = 'NPC' -%}
+{%- elsif page.collection == 'factions' -%}
+  {%- assign _meta_label = 'Faction' -%}
+{%- else -%}
+  {%- assign _meta_label = 'Entity Data' -%}
+{%- endif -%}
+
+{%- comment -%} Resolve parent document (for location hierarchy) {%- endcomment -%}
+{%- assign _parent_doc = nil -%}
+{%- if page.parent -%}
+  {%- assign _parent_doc = site.locations | where: "slug", page.parent | first -%}
+{%- endif -%}
+
+{%- comment -%} Resolve location field to a _locations/ document if possible {%- endcomment -%}
+{%- assign _loc_doc = nil -%}
+{%- if page.location -%}
+  {%- assign _loc_doc = site.locations | where: "slug", page.location | first -%}
 {%- endif -%}
 
 <aside class="entity-meta" aria-label="{{ _meta_label }} data">
@@ -26,6 +51,22 @@
   </div>
 
   <ul class="entity-meta-grid">
+
+    {%- comment -%}
+      Immediate parent link, labeled by the parent's own type field.
+      e.g. a World shows "Subsector: Regina Subsector" (linked).
+    {%- endcomment -%}
+    {%- if _parent_doc -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">{{ _parent_doc.type | default: 'Parent' | capitalize | escape }}</span>
+      <span class="entity-meta-val">
+        <a href="{{ _parent_doc.url | relative_url }}"
+           class="text-cyan-400 hover:text-cyan-300 transition-colors duration-150">
+          {{- _parent_doc.title | escape -}}
+        </a>
+      </span>
+    </li>
+    {%- endif -%}
 
     {%- if page.status -%}
     <li class="entity-meta-row">
@@ -44,7 +85,16 @@
     {%- if page.location -%}
     <li class="entity-meta-row">
       <span class="entity-meta-key">Location</span>
-      <span class="entity-meta-val">{{ page.location | escape }}</span>
+      <span class="entity-meta-val">
+        {%- if _loc_doc -%}
+        <a href="{{ _loc_doc.url | relative_url }}"
+           class="text-cyan-400 hover:text-cyan-300 transition-colors duration-150">
+          {{- _loc_doc.title | escape -}}
+        </a>
+        {%- else -%}
+        {{- page.location | escape -}}
+        {%- endif -%}
+      </span>
     </li>
     {%- endif -%}
 
@@ -59,6 +109,34 @@
     <li class="entity-meta-row">
       <span class="entity-meta-key">Class</span>
       <span class="entity-meta-val">{{ page.class | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.uwp -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">UWP</span>
+      <span class="entity-meta-val font-mono tracking-widest">{{ page.uwp | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.allegiance -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Alleg.</span>
+      <span class="entity-meta-val">{{ page.allegiance | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.position -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Position</span>
+      <span class="entity-meta-val">{{ page.position | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.bases -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Bases</span>
+      <span class="entity-meta-val">{{ page.bases | escape }}</span>
     </li>
     {%- endif -%}
 

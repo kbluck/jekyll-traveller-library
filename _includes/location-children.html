@@ -1,0 +1,41 @@
+{%- comment -%}
+  location-children.html — list of direct child locations.
+
+  Matches site.locations documents whose 'parent' front matter value equals
+  page.slug (the filename-derived slug of the current location document).
+  Renders nothing when no children exist.
+{%- endcomment -%}
+
+{%- assign _children = site.locations | where: "parent", page.slug | sort: "title" -%}
+
+{%- if _children.size > 0 -%}
+<div class="clear-right mt-8 pt-5" style="border-top: 1px solid rgba(34,211,238,0.15);">
+
+  <h3 class="sidebar-section-header">
+    <span class="text-cyan-500 text-[10px]">◈</span>
+    Contains
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">
+      {{ _children.size }}
+    </span>
+  </h3>
+
+  <ul class="mt-2">
+    {%- for child in _children -%}
+    <li class="flex items-center gap-2 py-1.5"
+        style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+      <span class="text-cyan-500 text-[10px] shrink-0 select-none">›</span>
+      <a href="{{ child.url | relative_url }}"
+         class="text-cyan-400 hover:text-cyan-300 text-sm transition-colors duration-150 flex-1 leading-snug">
+        {{- child.title | escape -}}
+      </a>
+      {%- if child.type -%}
+      <span class="text-[9px] uppercase tracking-wider text-gray-700 shrink-0">
+        {{- child.type | escape -}}
+      </span>
+      {%- endif -%}
+    </li>
+    {%- endfor -%}
+  </ul>
+
+</div>
+{%- endif -%}
