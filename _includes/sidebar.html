@@ -112,8 +112,9 @@
                       <div class="sidebar-tree-children">
                         {%- for world in _ss_worlds -%}
                         <a href="{{ world.url | relative_url }}"
-                           class="sidebar-link {% if page.url == world.url %}sidebar-link--active{% endif %}">
-                          {{- world.title | truncate: 24 -}}
+                           class="sidebar-tree-leaf {% if page.url == world.url %}sidebar-tree-leaf--active{% endif %}">
+                          <span class="sidebar-tree-bullet" aria-hidden="true">·</span>
+                          {{- world.title | truncate: 22 -}}
                         </a>
                         {%- endfor -%}
                       </div>
@@ -121,8 +122,9 @@
 
                     {%- else -%}
                     <a href="{{ subsector.url | relative_url }}"
-                       class="sidebar-link {% if page.url == subsector.url %}sidebar-link--active{% endif %}">
-                      {{- subsector.title | truncate: 24 -}}
+                       class="sidebar-tree-leaf {% if page.url == subsector.url %}sidebar-tree-leaf--active{% endif %}">
+                      <span class="sidebar-tree-bullet" aria-hidden="true">·</span>
+                      {{- subsector.title | truncate: 22 -}}
                     </a>
                     {%- endif -%}
                   {%- endfor -%}
@@ -132,8 +134,9 @@
 
               {%- else -%}
               <a href="{{ sector.url | relative_url }}"
-                 class="sidebar-link {% if page.url == sector.url %}sidebar-link--active{% endif %}">
-                {{- sector.title | truncate: 24 -}}
+                 class="sidebar-tree-leaf {% if page.url == sector.url %}sidebar-tree-leaf--active{% endif %}">
+                <span class="sidebar-tree-bullet" aria-hidden="true">·</span>
+                {{- sector.title | truncate: 22 -}}
               </a>
               {%- endif -%}
             {%- endfor -%}
@@ -143,8 +146,9 @@
 
         {%- else -%}
         <a href="{{ domain.url | relative_url }}"
-           class="sidebar-link {% if page.url == domain.url %}sidebar-link--active{% endif %}">
-          {{- domain.title | truncate: 24 -}}
+           class="sidebar-tree-leaf {% if page.url == domain.url %}sidebar-tree-leaf--active{% endif %}">
+          <span class="sidebar-tree-bullet" aria-hidden="true">·</span>
+          {{- domain.title | truncate: 22 -}}
         </a>
         {%- endif -%}
       {%- endfor -%}
