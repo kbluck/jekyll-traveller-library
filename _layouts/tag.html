@@ -2,42 +2,27 @@
 layout: default
 ---
 {%- comment -%}
-  tag.html — index of all wiki entries carrying a given keyword.
-
-  Create one Markdown file per tag inside _tags/.
-  The filename slug IS the tag key — it must match values used in entry
-  front matter exactly (case-sensitive, hyphenated).
-
-  Minimum required front matter per tag file:
-    ---
-    title: "Merchant"
-    permalink: /tags/merchant/
-    ---
-
-  The layout: tag default is set globally in _config.yml.
+  tag.html — auto-generated index for a single keyword tag.
+  Pages are created by _plugins/tag_generator.rb; no _tags/*.md source files needed.
+  page.tag  = raw tag string (matches values in front matter)
+  page.title = display name (derived from slug)
 {%- endcomment -%}
 
-{%- comment -%} Gather matching entries from every collection and posts {%- endcomment -%}
-{%- comment -%} Derive slug from filename: "_tags/free-trader.md" → "free-trader" {%- endcomment -%}
-{%- assign _key = page.path | split: "/" | last | split: "." | first -%}
-{%- assign _t_people  = site.people    | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
-{%- assign _t_locs    = site.locations | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
-{%- assign _t_facs    = site.factions  | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
-{%- assign _t_posts   = site.posts     | where_exp: "d", "d.tags contains _key" -%}
-{%- assign _total     = _t_people.size | plus: _t_locs.size | plus: _t_facs.size | plus: _t_posts.size -%}
+{%- assign _key    = page.tag -%}
+{%- assign _people = site.people    | where_exp: "d", "d.tags contains _key" -%}
+{%- assign _locs   = site.locations | where_exp: "d", "d.tags contains _key" -%}
+{%- assign _facs   = site.factions  | where_exp: "d", "d.tags contains _key" -%}
+{%- assign _posts  = site.posts     | where_exp: "d", "d.tags contains _key" -%}
+{%- assign _all    = _people | concat: _locs | concat: _facs | concat: _posts | sort: "title" -%}
 
-{%- comment -%} Subtitle row {%- endcomment -%}
-<p class="clear-both -mt-2 mb-8 text-xs text-gray-600 tracking-widest uppercase">
-  {%- if _total == 0 -%}
-    No entries recorded
-  {%- elsif _total == 1 -%}
-    1 entry
-  {%- else -%}
-    {{ _total }} entries
+<p class="-mt-2 mb-8 text-xs text-gray-600 tracking-widest uppercase">
+  {%- if _all.size == 0 -%}No entries recorded
+  {%- elsif _all.size == 1 -%}1 entry
+  {%- else -%}{{ _all.size }} entries
   {%- endif -%}
 </p>
 
-{%- if _total == 0 -%}
+{%- if _all.size == 0 -%}
 
 <p class="text-sm text-gray-500 italic">
   No wiki entries are tagged with <span class="text-cyan-600">{{ _key }}</span> yet.
@@ -45,70 +30,28 @@ layout: default
 
 {%- else -%}
 
-{%- comment -%} ── Macro: render a list of entries ─────────────────────────────── {%- endcomment -%}
 {%- comment -%}
-  Jekyll/Liquid has no real macros; the group block below is repeated per
-  collection type. Each block guards on collection.size > 0.
+  group_by_exp groups the already-sorted _all array by first letter.
+  Items within each group remain in title-sort order.
+  sort: "name" then orders the letter groups A → Z.
 {%- endcomment -%}
+{%- assign _groups = _all | group_by_exp: "item", "item.title | slice: 0 | upcase" | sort: "name" -%}
 
-{%- if _t_people.size > 0 -%}
+{%- for group in _groups -%}
 <section class="mb-8">
   <h3 class="sidebar-section-header">
     <span class="text-cyan-500 text-[10px]">◈</span>
-    People
-    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_people.size }}</span>
+    {{ group.name }}
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal text-xs">
+      {{ group.items.size }}
+    </span>
   </h3>
   <ul class="mt-1">
-    {%- for item in _t_people -%}
+    {%- for item in group.items -%}
     {%- include tag-entry.html item=item -%}
     {%- endfor -%}
   </ul>
 </section>
-{%- endif -%}
-
-{%- if _t_locs.size > 0 -%}
-<section class="mb-8">
-  <h3 class="sidebar-section-header">
-    <span class="text-cyan-500 text-[10px]">◈</span>
-    Locations
-    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_locs.size }}</span>
-  </h3>
-  <ul class="mt-1">
-    {%- for item in _t_locs -%}
-    {%- include tag-entry.html item=item -%}
-    {%- endfor -%}
-  </ul>
-</section>
-{%- endif -%}
-
-{%- if _t_facs.size > 0 -%}
-<section class="mb-8">
-  <h3 class="sidebar-section-header">
-    <span class="text-cyan-500 text-[10px]">◈</span>
-    Factions
-    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_facs.size }}</span>
-  </h3>
-  <ul class="mt-1">
-    {%- for item in _t_facs -%}
-    {%- include tag-entry.html item=item -%}
-    {%- endfor -%}
-  </ul>
-</section>
-{%- endif -%}
-
-{%- if _t_posts.size > 0 -%}
-<section class="mb-8">
-  <h3 class="sidebar-section-header">
-    <span class="text-cyan-500 text-[10px]">◈</span>
-    Journal
-    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_posts.size }}</span>
-  </h3>
-  <ul class="mt-1">
-    {%- for item in _t_posts -%}
-    {%- include tag-entry.html item=item -%}
-    {%- endfor -%}
-  </ul>
-</section>
-{%- endif -%}
+{%- endfor -%}
 
 {%- endif -%}
