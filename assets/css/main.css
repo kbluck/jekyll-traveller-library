@@ -1033,11 +1033,11 @@ body::after {
     text-align: center;
     --tw-leading: 1;
     line-height: 1;
-    width: 10px;
-    font-size: 9px;
+    width: 20px;
+    font-size: 24px;
   }
   .sidebar-tree-chevron {
-    color: var(--color-gray-500);
+    color: var(--color-gray-400);
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
@@ -1050,7 +1050,7 @@ body::after {
   }
   .sidebar-tree-bullet {
     color: var(--color-gray-600);
-    font-size: 14px;
+    font-size: 10px;
     line-height: 1;
   }
   .sidebar-tree-label {

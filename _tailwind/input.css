@@ -177,17 +177,17 @@ body::after {
     &::marker                 { display: none; }
   }
 
-  /* Fixed-width icon slot (10 px) shared by chevron and bullet */
+  /* Fixed-width icon slot shared by chevron and bullet */
   .sidebar-tree-chevron,
   .sidebar-tree-bullet {
     @apply shrink-0 text-center leading-none;
-    width: 10px;
-    font-size: 9px;
+    width: 20px;
+    font-size: 24px;
   }
 
   /* Chevron: dim when closed, bright + rotated when open */
   .sidebar-tree-chevron {
-    @apply text-gray-500 transition-all duration-200;
+    @apply text-gray-400 transition-all duration-200;
   }
 
   details[open] > .sidebar-tree-row > .sidebar-tree-chevron {
@@ -195,10 +195,10 @@ body::after {
     transform: rotate(90deg);
   }
 
-  /* Bullet: always dim, no rotation */
+  /* Bullet: always dim, no rotation — smaller than chevron */
   .sidebar-tree-bullet {
     @apply text-gray-600;
-    font-size: 14px; /* · looks right at a slightly larger size */
+    font-size: 10px;
     line-height: 1;
   }
 
