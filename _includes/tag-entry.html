@@ -1,0 +1,20 @@
+<li class="flex items-start gap-3 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+  <span class="mt-px text-cyan-500 text-xs shrink-0 select-none leading-snug">›</span>
+  <div class="min-w-0 flex-1">
+    <div class="flex items-baseline gap-3 flex-wrap">
+      <a href="{{ include.item.url | relative_url }}"
+         class="text-cyan-400 hover:text-cyan-300 font-medium text-sm transition-colors duration-150 leading-snug">
+        {{- include.item.title | escape -}}
+      </a>
+      {%- if include.item.status -%}
+      <span class="text-[9px] tracking-[0.12em] uppercase text-gray-600 shrink-0">
+        {{- include.item.status | escape -}}
+      </span>
+      {%- endif -%}
+    </div>
+    {%- assign _excerpt = include.item.excerpt | strip_html | strip | truncate: 120 -%}
+    {%- if _excerpt != "" -%}
+    <p class="mt-0.5 text-xs text-gray-500 leading-relaxed">{{ _excerpt }}</p>
+    {%- endif -%}
+  </div>
+</li>

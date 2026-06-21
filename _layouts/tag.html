@@ -1,0 +1,114 @@
+---
+layout: default
+---
+{%- comment -%}
+  tag.html — index of all wiki entries carrying a given keyword.
+
+  Create one Markdown file per tag inside _tags/.
+  The filename slug IS the tag key — it must match values used in entry
+  front matter exactly (case-sensitive, hyphenated).
+
+  Minimum required front matter per tag file:
+    ---
+    title: "Merchant"
+    permalink: /tags/merchant/
+    ---
+
+  The layout: tag default is set globally in _config.yml.
+{%- endcomment -%}
+
+{%- comment -%} Gather matching entries from every collection and posts {%- endcomment -%}
+{%- comment -%} Derive slug from filename: "_tags/free-trader.md" → "free-trader" {%- endcomment -%}
+{%- assign _key = page.path | split: "/" | last | split: "." | first -%}
+{%- assign _t_npcs    = site.npcs      | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
+{%- assign _t_locs    = site.locations | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
+{%- assign _t_facs    = site.factions  | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
+{%- assign _t_posts   = site.posts     | where_exp: "d", "d.tags contains _key" -%}
+{%- assign _total     = _t_npcs.size | plus: _t_locs.size | plus: _t_facs.size | plus: _t_posts.size -%}
+
+{%- comment -%} Subtitle row {%- endcomment -%}
+<p class="clear-both -mt-2 mb-8 text-xs text-gray-600 tracking-widest uppercase">
+  {%- if _total == 0 -%}
+    No entries recorded
+  {%- elsif _total == 1 -%}
+    1 entry
+  {%- else -%}
+    {{ _total }} entries
+  {%- endif -%}
+</p>
+
+{%- if _total == 0 -%}
+
+<p class="text-sm text-gray-500 italic">
+  No wiki entries are tagged with <span class="text-cyan-600">{{ _key }}</span> yet.
+</p>
+
+{%- else -%}
+
+{%- comment -%} ── Macro: render a list of entries ─────────────────────────────── {%- endcomment -%}
+{%- comment -%}
+  Jekyll/Liquid has no real macros; the group block below is repeated per
+  collection type. Each block guards on collection.size > 0.
+{%- endcomment -%}
+
+{%- if _t_npcs.size > 0 -%}
+<section class="mb-8">
+  <h3 class="sidebar-section-header">
+    <span class="text-cyan-500 text-[10px]">◈</span>
+    NPCs
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_npcs.size }}</span>
+  </h3>
+  <ul class="mt-1">
+    {%- for item in _t_npcs -%}
+    {%- include tag-entry.html item=item -%}
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}
+
+{%- if _t_locs.size > 0 -%}
+<section class="mb-8">
+  <h3 class="sidebar-section-header">
+    <span class="text-cyan-500 text-[10px]">◈</span>
+    Locations
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_locs.size }}</span>
+  </h3>
+  <ul class="mt-1">
+    {%- for item in _t_locs -%}
+    {%- include tag-entry.html item=item -%}
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}
+
+{%- if _t_facs.size > 0 -%}
+<section class="mb-8">
+  <h3 class="sidebar-section-header">
+    <span class="text-cyan-500 text-[10px]">◈</span>
+    Factions
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_facs.size }}</span>
+  </h3>
+  <ul class="mt-1">
+    {%- for item in _t_facs -%}
+    {%- include tag-entry.html item=item -%}
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}
+
+{%- if _t_posts.size > 0 -%}
+<section class="mb-8">
+  <h3 class="sidebar-section-header">
+    <span class="text-cyan-500 text-[10px]">◈</span>
+    Journal
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_posts.size }}</span>
+  </h3>
+  <ul class="mt-1">
+    {%- for item in _t_posts -%}
+    {%- include tag-entry.html item=item -%}
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}
+
+{%- endif -%}

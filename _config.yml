@@ -53,6 +53,14 @@ plugins:
 # The following items will be processed.
 include:
   - _pages
+  - _tags
+
+# Front-matter defaults
+defaults:
+  - scope:
+      path: "_tags"
+    values:
+      layout: tag
 
 # Exclude from processing.
 # The following items will not be processed, by default.
