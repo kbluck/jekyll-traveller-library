@@ -1,0 +1,69 @@
+{%- comment -%}
+  entity-meta.html — wiki infobox for NPCs, locations, factions, etc.
+  Reads from page front matter: status, faction, location, race, class.
+  Place {% include entity-meta.html %} at the top of content, before prose.
+{%- endcomment -%}
+
+{%- assign _has_meta = false -%}
+{%- if page.status or page.faction or page.location or page.race or page.class -%}
+  {%- assign _has_meta = true -%}
+{%- endif -%}
+
+{%- if _has_meta -%}
+
+{%- comment -%} Map collection slug to a readable label {%- endcomment -%}
+{%- assign _meta_label = 'Entity Data' -%}
+{%- if page.collection == 'npcs' -%}{%- assign _meta_label = 'NPC' -%}
+{%- elsif page.collection == 'locations' -%}{%- assign _meta_label = 'Location' -%}
+{%- elsif page.collection == 'factions' -%}{%- assign _meta_label = 'Faction' -%}
+{%- endif -%}
+
+<aside class="entity-meta" aria-label="{{ _meta_label }} data">
+
+  <div class="entity-meta-header">
+    <span class="text-cyan-500 leading-none" style="text-shadow: 0 0 8px rgba(34,211,238,0.9);">◆</span>
+    <span>{{ _meta_label }}</span>
+  </div>
+
+  <ul class="entity-meta-grid">
+
+    {%- if page.status -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Status</span>
+      <span class="entity-meta-val">{{ page.status | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.faction -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Faction</span>
+      <span class="entity-meta-val">{{ page.faction | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.location -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Location</span>
+      <span class="entity-meta-val">{{ page.location | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.race -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Race</span>
+      <span class="entity-meta-val">{{ page.race | escape }}</span>
+    </li>
+    {%- endif -%}
+
+    {%- if page.class -%}
+    <li class="entity-meta-row">
+      <span class="entity-meta-key">Class</span>
+      <span class="entity-meta-val">{{ page.class | escape }}</span>
+    </li>
+    {%- endif -%}
+
+  </ul>
+
+</aside>
+
+{%- endif -%}

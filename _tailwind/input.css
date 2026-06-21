@@ -65,6 +65,7 @@ body::after {
 @layer components {
   .prose-traveller {
     @apply text-gray-300 leading-relaxed;
+    display: flow-root; /* contain entity-meta float */
   }
   .prose-traveller h1 {
     @apply text-2xl font-bold text-gray-100 mt-8 mb-4 tracking-wide;
@@ -87,11 +88,11 @@ body::after {
   .prose-traveller a {
     @apply text-cyan-400 hover:text-cyan-300 underline decoration-cyan-500/40 hover:decoration-cyan-400/60 transition-colors;
   }
-  .prose-traveller ul {
+  .prose-traveller ul:not(.entity-meta-grid) {
     @apply pl-4 mb-4 space-y-1;
     list-style: none;
   }
-  .prose-traveller ul li::before {
+  .prose-traveller ul:not(.entity-meta-grid) li::before {
     content: "›";
     color: rgba(34, 211, 238, 0.7);
     margin-right: 0.5rem;
@@ -144,5 +145,48 @@ body::after {
   .prose-traveller img {
     @apply rounded-sm max-w-full my-4;
     border: 1px solid rgba(34, 211, 238, 0.2);
+  }
+}
+
+/* ── Entity meta infobox ────────────────────────────────────────── */
+
+@layer components {
+  .entity-meta {
+    @apply float-right clear-right ml-6 mb-5 w-52 bg-gray-900 text-sm;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), 0 0 1px rgba(34, 211, 238, 0.3);
+  }
+
+  .entity-meta-header {
+    @apply px-3 py-2 flex items-center gap-1.5
+           text-[9px] font-bold tracking-[0.25em] uppercase text-cyan-400;
+    border-bottom: 1px solid rgba(34, 211, 238, 0.25);
+    background: rgba(34, 211, 238, 0.05);
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+  }
+
+  /* Reset prose-traveller ul styles that would leak in */
+  .entity-meta-grid {
+    @apply m-0 p-0;
+    list-style: none;
+  }
+
+  .entity-meta-row {
+    @apply flex items-baseline;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .entity-meta-row:last-child {
+    border-bottom: none;
+  }
+
+  .entity-meta-key {
+    @apply w-16 shrink-0 px-3 py-1.5
+           text-[9px] font-bold tracking-[0.1em] uppercase text-cyan-500
+           leading-snug whitespace-nowrap;
+  }
+
+  .entity-meta-val {
+    @apply flex-1 px-2 py-1.5 text-xs text-gray-200 leading-snug;
   }
 }
