@@ -1,10 +1,10 @@
-<nav class="p-5 space-y-7 text-sm">
+<nav class="p-5 space-y-5 text-sm">
 
   <!-- ── Recent Changes ──────────────────────────────────── -->
-  <section>
-    <h3 class="sidebar-section-header">
+  <details open>
+    <summary class="sidebar-section-header">
       <span class="text-cyan-500 text-[10px]">◈</span> Recent Changes
-    </h3>
+    </summary>
     <ul class="space-y-0.5 mt-1">
       {%- assign rc_posts     = site.posts     | sort: 'date' | reverse -%}
       {%- assign rc_npcs      = site.npcs      | sort: 'date' | reverse -%}
@@ -26,13 +26,13 @@
         <li class="sidebar-empty">No entries yet</li>
       {%- endif -%}
     </ul>
-  </section>
+  </details>
 
   <!-- ── NPCs ────────────────────────────────────────────── -->
-  <section>
-    <h3 class="sidebar-section-header">
+  <details open>
+    <summary class="sidebar-section-header">
       <span class="text-cyan-500 text-[10px]">◈</span> NPCs
-    </h3>
+    </summary>
     <ul class="space-y-0.5 mt-1">
       {%- for npc in site.npcs -%}
         <li>
@@ -51,18 +51,18 @@
       View all &rsaquo;
     </a>
     {%- endif -%}
-  </section>
+  </details>
 
   <!-- ── Locations (hierarchical tree) ─────────────────── -->
-  <section>
-    <h3 class="sidebar-section-header">
+  <details open>
+    <summary class="sidebar-section-header">
       <span class="text-cyan-500 text-[10px]">◈</span> Locations
-    </h3>
+    </summary>
 
     {%- assign _loc_domains = site.locations | where: "type", "domain" | sort: "title" -%}
 
     {%- if site.locations.size == 0 -%}
-      <p class="sidebar-empty">No locations charted</p>
+      <p class="sidebar-empty mt-1">No locations charted</p>
     {%- else -%}
     <div class="mt-1 space-y-px">
 
@@ -155,13 +155,13 @@
 
     </div>
     {%- endif -%}
-  </section>
+  </details>
 
   <!-- ── Factions ─────────────────────────────────────────── -->
-  <section>
-    <h3 class="sidebar-section-header">
+  <details open>
+    <summary class="sidebar-section-header">
       <span class="text-cyan-500 text-[10px]">◈</span> Factions
-    </h3>
+    </summary>
     <ul class="space-y-0.5 mt-1">
       {%- for faction in site.factions -%}
         <li>
@@ -180,6 +180,6 @@
       View all &rsaquo;
     </a>
     {%- endif -%}
-  </section>
+  </details>
 
 </nav>

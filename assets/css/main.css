@@ -417,11 +417,11 @@
       margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
-  .space-y-7 {
+  .space-y-5 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
-      margin-block-start: calc(calc(var(--spacing) * 7) * var(--tw-space-y-reverse));
-      margin-block-end: calc(calc(var(--spacing) * 7) * calc(1 - var(--tw-space-y-reverse)));
+      margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
   .space-y-px {
@@ -758,6 +758,30 @@ body::after {
     text-transform: uppercase;
     border-bottom: 1px solid rgba(34, 211, 238, 0.25);
     text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+  }
+  summary.sidebar-section-header {
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    list-style: none;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::marker {
+      display: none;
+    }
+    &::after {
+      content: '▸';
+      margin-left: auto;
+      font-size: 24px;
+      color: var(--color-gray-500);
+      text-shadow: none;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+  }
+  details[open] > summary.sidebar-section-header::after {
+    transform: rotate(90deg);
+    color: var(--color-cyan-500);
   }
   .sidebar-link {
     display: block;
