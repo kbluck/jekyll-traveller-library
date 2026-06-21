@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<article>
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">{{ page.title | escape }}</h1>
+    <div class="flex items-center gap-4 text-sm text-gray-500">
+      <time datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: '%B %-d, %Y' }}
+      </time>
+      {% if page.categories.size > 0 %}
+      <span>
+        {% for cat in page.categories %}<span class="bg-gray-100 px-2 py-0.5 rounded">{{ cat }}</span>{% unless forloop.last %} {% endunless %}{% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </header>
+  <div class="leading-relaxed space-y-4 text-gray-700">
+    {{ content }}
+  </div>
+</article>

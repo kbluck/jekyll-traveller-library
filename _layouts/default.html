@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title | escape }} | {% endif %}{{ site.title | escape }}</title>
+  <!-- Futuristic UI typeface -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  {% feed_meta %}
+  <style>
+    body { font-family: "Exo 2", ui-sans-serif, system-ui, sans-serif; }
+  </style>
+</head>
+<body class="h-full bg-gray-950 text-gray-300 flex flex-col overflow-hidden">
+
+  <!-- ══════════════════════════════════════════════════════
+       TOP HEADER BAR
+       ══════════════════════════════════════════════════════ -->
+  <header class="shrink-0 bg-gray-900 holo-border-glow z-50 sticky top-0"
+          style="border-bottom: 1px solid rgba(34,211,238,0.35);">
+    <div class="flex items-center justify-between px-5 py-3">
+
+      <!-- Site identity -->
+      <a href="{{ '/' | relative_url }}"
+         class="flex items-center gap-3 group">
+        <!-- Decorative diamond cluster -->
+        <span class="text-cyan-500 leading-none select-none" style="font-size: 0.9rem; text-shadow: 0 0 8px rgba(34,211,238,0.8);">
+          ◆◇
+        </span>
+        <span class="text-base font-bold tracking-[0.2em] uppercase text-gray-100
+                     group-hover:text-cyan-300 transition-colors duration-200 holo-heading-glow">
+          {{ site.title | escape }}
+        </span>
+      </a>
+
+      <!-- Top-right: breadcrumb label + mobile toggle -->
+      <div class="flex items-center gap-4">
+        {%- if page.title -%}
+        <span class="hidden sm:block text-xs text-gray-600 tracking-widest uppercase truncate max-w-xs">
+          {{ page.title | escape }}
+        </span>
+        {%- endif -%}
+
+        <!-- Mobile sidebar toggle -->
+        <button id="sidebar-toggle"
+                aria-label="Toggle navigation"
+                class="lg:hidden text-gray-500 hover:text-cyan-400 transition-colors p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+    <!-- Accent pulse line under header -->
+    <div class="h-px w-full" style="background: linear-gradient(90deg, transparent 0%, rgba(34,211,238,0.6) 30%, rgba(34,211,238,0.9) 50%, rgba(34,211,238,0.6) 70%, transparent 100%);"></div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════
+       BODY: SIDEBAR + MAIN
+       ══════════════════════════════════════════════════════ -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- LEFT SIDEBAR ───────────────────────────────────── -->
+    <aside id="sidebar"
+           class="w-64 shrink-0 bg-gray-900 holo-panel overflow-y-auto
+                  hidden lg:block
+                  absolute lg:static inset-y-0 left-0 z-40
+                  transform -translate-x-full lg:translate-x-0 transition-transform duration-200"
+           style="border-right: 1px solid rgba(34,211,238,0.2);">
+
+      <!-- Decorative top rule inside sidebar -->
+      <div class="mx-5 mt-4 mb-1 h-px" style="background: linear-gradient(90deg, rgba(34,211,238,0.6), transparent);"></div>
+      <p class="px-5 pb-3 text-[9px] tracking-[0.3em] uppercase text-gray-600">
+        Navigation
+      </p>
+
+      {%- include sidebar.html -%}
+
+      <!-- Sidebar footer stamp -->
+      <div class="mx-5 mt-auto pt-6 pb-5">
+        <div class="h-px mb-3" style="background: linear-gradient(90deg, rgba(34,211,238,0.3), transparent);"></div>
+        <p class="text-[9px] tracking-[0.2em] uppercase text-gray-700">
+          Library Data<br>
+          <span class="text-gray-800">{{ 'now' | date: '%Y-%m-%d' }}</span>
+        </p>
+      </div>
+    </aside>
+
+    <!-- Backdrop for mobile sidebar -->
+    <div id="sidebar-backdrop"
+         class="hidden fixed inset-0 bg-black/60 z-30 lg:hidden"
+         aria-hidden="true"></div>
+
+    <!-- MAIN CONTENT ────────────────────────────────────── -->
+    <main class="flex-1 overflow-y-auto">
+      <div class="max-w-4xl mx-auto px-6 py-8">
+
+        {%- if page.title -%}
+        <!-- Page title block -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-cyan-500 text-xs select-none">◆</span>
+            <span class="text-[10px] tracking-[0.25em] uppercase text-gray-600">
+              {%- if page.collection -%}{{ page.collection }}{%- elsif page.layout -%}{{ page.layout }}{%- endif -%}
+            </span>
+          </div>
+          <h1 class="text-3xl font-bold text-gray-100 tracking-wide holo-heading-glow">
+            {{ page.title | escape }}
+          </h1>
+          {%- if page.date -%}
+          <p class="mt-2 text-xs text-gray-600 tracking-wider">
+            {{ page.date | date: "%Y-%m-%d" }}
+          </p>
+          {%- endif -%}
+          <!-- Rule under title -->
+          <div class="mt-4 h-px" style="background: linear-gradient(90deg, rgba(34,211,238,0.4), rgba(34,211,238,0.05) 60%, transparent);"></div>
+        </div>
+        {%- endif -%}
+
+        <!-- Rendered Markdown / page body -->
+        <div class="prose-traveller">
+          {{ content }}
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════════════════════ -->
+  <footer class="shrink-0 bg-gray-900 px-6 py-3 flex items-center justify-between text-[10px] tracking-widest uppercase text-gray-700"
+          style="border-top: 1px solid rgba(34,211,238,0.15);">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ site.author_name | escape }}</span>
+    <span class="text-gray-800">Library Data // Classified</span>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════
+       MOBILE SIDEBAR TOGGLE SCRIPT
+       ══════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      var toggle   = document.getElementById('sidebar-toggle');
+      var sidebar  = document.getElementById('sidebar');
+      var backdrop = document.getElementById('sidebar-backdrop');
+
+      function openSidebar() {
+        sidebar.classList.remove('hidden', '-translate-x-full');
+        sidebar.classList.add('block', 'translate-x-0');
+        backdrop.classList.remove('hidden');
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('block', 'translate-x-0');
+        sidebar.classList.add('hidden', '-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+
+      if (toggle) toggle.addEventListener('click', function () {
+        sidebar.classList.contains('translate-x-0') ? closeSidebar() : openSidebar();
+      });
+
+      if (backdrop) backdrop.addEventListener('click', closeSidebar);
+    }());
+  </script>
+
+</body>
+</html>

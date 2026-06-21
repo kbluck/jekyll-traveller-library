@@ -1,0 +1,103 @@
+<nav class="p-5 space-y-7 text-sm">
+
+  <!-- ── Recent Changes ──────────────────────────────────── -->
+  <section>
+    <h3 class="sidebar-section-header">
+      <span class="text-cyan-500 text-[10px]">◈</span> Recent Changes
+    </h3>
+    <ul class="space-y-0.5 mt-1">
+      {%- assign rc_posts     = site.posts     | sort: 'date' | reverse -%}
+      {%- assign rc_npcs      = site.npcs      | sort: 'date' | reverse -%}
+      {%- assign rc_locations = site.locations | sort: 'date' | reverse -%}
+      {%- assign rc_factions  = site.factions  | sort: 'date' | reverse -%}
+      {%- assign rc_all = rc_posts | concat: rc_npcs | concat: rc_locations | concat: rc_factions | sort: 'date' | reverse -%}
+      {%- assign rc_count = 0 -%}
+      {%- for item in rc_all -%}
+        {%- if rc_count < 7 and item.title -%}
+        <li>
+          <a href="{{ item.url | relative_url }}" class="sidebar-link">
+            {{ item.title | truncate: 30 }}
+          </a>
+        </li>
+        {%- assign rc_count = rc_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if rc_count == 0 -%}
+        <li class="sidebar-empty">No entries yet</li>
+      {%- endif -%}
+    </ul>
+  </section>
+
+  <!-- ── NPCs ────────────────────────────────────────────── -->
+  <section>
+    <h3 class="sidebar-section-header">
+      <span class="text-cyan-500 text-[10px]">◈</span> NPCs
+    </h3>
+    <ul class="space-y-0.5 mt-1">
+      {%- for npc in site.npcs -%}
+        <li>
+          <a href="{{ npc.url | relative_url }}" class="sidebar-link">
+            {{ npc.title | truncate: 30 }}
+          </a>
+        </li>
+      {%- else -%}
+        <li class="sidebar-empty">No NPCs recorded</li>
+      {%- endfor -%}
+    </ul>
+    {%- if site.npcs.size > 0 -%}
+    <a href="{{ '/npcs/' | relative_url }}"
+       class="inline-block mt-2 ml-3 text-[10px] tracking-wider uppercase text-cyan-600 hover:text-cyan-400 transition-colors">
+      View all &rsaquo;
+    </a>
+    {%- endif -%}
+  </section>
+
+  <!-- ── Locations ───────────────────────────────────────── -->
+  <section>
+    <h3 class="sidebar-section-header">
+      <span class="text-cyan-500 text-[10px]">◈</span> Locations
+    </h3>
+    <ul class="space-y-0.5 mt-1">
+      {%- for location in site.locations -%}
+        <li>
+          <a href="{{ location.url | relative_url }}" class="sidebar-link">
+            {{ location.title | truncate: 30 }}
+          </a>
+        </li>
+      {%- else -%}
+        <li class="sidebar-empty">No locations charted</li>
+      {%- endfor -%}
+    </ul>
+    {%- if site.locations.size > 0 -%}
+    <a href="{{ '/locations/' | relative_url }}"
+       class="inline-block mt-2 ml-3 text-[10px] tracking-wider uppercase text-cyan-600 hover:text-cyan-400 transition-colors">
+      View all &rsaquo;
+    </a>
+    {%- endif -%}
+  </section>
+
+  <!-- ── Factions ─────────────────────────────────────────── -->
+  <section>
+    <h3 class="sidebar-section-header">
+      <span class="text-cyan-500 text-[10px]">◈</span> Factions
+    </h3>
+    <ul class="space-y-0.5 mt-1">
+      {%- for faction in site.factions -%}
+        <li>
+          <a href="{{ faction.url | relative_url }}" class="sidebar-link">
+            {{ faction.title | truncate: 30 }}
+          </a>
+        </li>
+      {%- else -%}
+        <li class="sidebar-empty">No factions identified</li>
+      {%- endfor -%}
+    </ul>
+    {%- if site.factions.size > 0 -%}
+    <a href="{{ '/factions/' | relative_url }}"
+       class="inline-block mt-2 ml-3 text-[10px] tracking-wider uppercase text-cyan-600 hover:text-cyan-400 transition-colors">
+      View all &rsaquo;
+    </a>
+    {%- endif -%}
+  </section>
+
+</nav>

@@ -1,0 +1,39 @@
+---
+layout: default
+---
+<div>
+  {{ content }}
+
+  <h2 class="text-[10px] font-bold tracking-[0.25em] uppercase text-cyan-400 pb-1.5 mb-6"
+      style="border-bottom: 1px solid rgba(34,211,238,0.25); text-shadow: 0 0 10px rgba(34,211,238,0.5);">
+    <span class="text-cyan-500 mr-2">◈</span>Recent Posts
+  </h2>
+
+  {% if site.posts.size > 0 %}
+  <ul class="space-y-0">
+    {% for post in site.posts %}
+    <li class="py-5" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+      <article>
+        <h3 class="text-base font-semibold mb-1">
+          <a href="{{ post.url | relative_url }}"
+             class="text-cyan-400 hover:text-cyan-300 transition-colors duration-150">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        <time class="text-[11px] tracking-wider text-gray-600 uppercase"
+              datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: '%Y-%m-%d' }}
+        </time>
+        {% if post.excerpt %}
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">
+          {{ post.excerpt | strip_html | truncate: 200 }}
+        </p>
+        {% endif %}
+      </article>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="text-sm text-gray-600 italic">No entries in the log.</p>
+  {% endif %}
+</div>
