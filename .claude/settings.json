@@ -1,0 +1,41 @@
+{
+  "advisorModel": "opus",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "computer-use",
+    "github",
+    "tailwindcss-mcp-server",
+    "tailwindcss-server"
+  ],
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(awk *)",
+      "Bash(bundle *)",
+      "Bash(curl *)",
+      "Bash(echo *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git reset *)",
+      "Bash(git stash *)",
+      "Bash(mkdir *)",
+      "Bash(npm *)",
+      "Bash(sed *)",
+      "Bash(xargs *)",
+      "mcp__computer-use__*",
+      "mcp__github__*",
+      "mcp__tailwindcss-mcp-server__*",
+      "mcp__traveller-map__*",
+      "Read(//usr/**)",
+      "Read(//Library/**)",
+      "Read(//private/tmp/**)"
+    ]
+  }
+}
