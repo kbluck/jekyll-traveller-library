@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 gem "jekyll", "~> 4.4.1"
-gem "minima", "~> 2.5.2"
 
 # Jekyll plugins are gems that extend the functionality of Jekyll. They can be
 # be used to add new features, modify existing behavior, or integrate with

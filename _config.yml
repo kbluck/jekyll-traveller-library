@@ -43,7 +43,6 @@ author_github:  kbluck
 author_twitter: kevinbluck
 
 # Build settings
-theme:       minima
 markdown:    kramdown
 highlighter: rouge
 
