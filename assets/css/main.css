@@ -12,7 +12,6 @@
     --color-cyan-500: oklch(71.5% 0.143 215.221);
     --color-cyan-600: oklch(60.9% 0.126 221.723);
     --color-cyan-950: oklch(30.2% 0.056 229.695);
-    --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
@@ -238,6 +237,9 @@
   .z-50 {
     z-index: 50;
   }
+  .clear-right {
+    clear: right;
+  }
   .mx-5 {
     margin-inline: calc(var(--spacing) * 5);
   }
@@ -250,8 +252,14 @@
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
+  .mt-3 {
+    margin-top: calc(var(--spacing) * 3);
+  }
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
+  }
+  .mt-10 {
+    margin-top: calc(var(--spacing) * 10);
   }
   .mt-auto {
     margin-top: auto;
@@ -336,11 +344,17 @@
   .flex-col {
     flex-direction: column;
   }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
   .items-center {
     align-items: center;
   }
   .justify-between {
     justify-content: space-between;
+  }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
   }
   .gap-3 {
     gap: calc(var(--spacing) * 3);
@@ -431,6 +445,9 @@
   }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
+  }
+  .pt-5 {
+    padding-top: calc(var(--spacing) * 5);
   }
   .pt-6 {
     padding-top: calc(var(--spacing) * 6);
@@ -881,6 +898,34 @@ body::after {
     max-width: 100%;
     border-radius: var(--radius-sm);
     border: 1px solid rgba(34, 211, 238, 0.2);
+  }
+}
+@layer components {
+  .tag-badge {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: calc(var(--spacing) * 2.5);
+    padding-block: var(--spacing);
+    font-size: 10px;
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+    --tw-tracking: 0.15em;
+    letter-spacing: 0.15em;
+    color: var(--color-cyan-400);
+    text-transform: uppercase;
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+    --tw-duration: 150ms;
+    transition-duration: 150ms;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    background: rgba(34, 211, 238, 0.04);
+    &:hover {
+      color: var(--color-cyan-300);
+      border-color: rgba(34, 211, 238, 0.65);
+      background: rgba(34, 211, 238, 0.1);
+      text-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+    }
   }
 }
 @layer components {

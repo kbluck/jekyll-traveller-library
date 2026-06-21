@@ -1,0 +1,38 @@
+---
+layout: default
+---
+
+{%- comment -%}
+  entry.html — wiki article layout for NPCs, Locations, Factions, etc.
+
+  Renders:
+    1. entity-meta infobox (floated right via entity-meta.html)
+    2. Page content markdown (flows around the infobox)
+    3. Tags section (below the float)
+
+  Page title is rendered by default.html above the prose area.
+  Do NOT add {% include entity-meta.html %} inside the content file itself
+  when using this layout — it is already included here.
+{%- endcomment -%}
+
+{%- include entity-meta.html -%}
+
+{{ content }}
+
+{%- if page.tags.size > 0 -%}
+<div class="clear-right mt-10 pt-5" style="border-top: 1px solid rgba(34,211,238,0.15);">
+
+  <p class="sidebar-section-header">
+    <span class="text-cyan-500 text-[10px]">◈</span> Keywords
+  </p>
+
+  <div class="flex flex-wrap gap-2 mt-3">
+    {%- for tag in page.tags -%}
+    <a href="{{ tag | slugify | prepend: '/tags/' | relative_url }}" class="tag-badge">
+      {{- tag | escape -}}
+    </a>
+    {%- endfor -%}
+  </div>
+
+</div>
+{%- endif -%}
