@@ -7,10 +7,10 @@
     </summary>
     <ul class="space-y-0.5 mt-1">
       {%- assign rc_posts     = site.posts     | sort: 'date' | reverse -%}
-      {%- assign rc_npcs      = site.npcs      | sort: 'date' | reverse -%}
+      {%- assign rc_people    = site.people    | sort: 'date' | reverse -%}
       {%- assign rc_locations = site.locations | sort: 'date' | reverse -%}
       {%- assign rc_factions  = site.factions  | sort: 'date' | reverse -%}
-      {%- assign rc_all = rc_posts | concat: rc_npcs | concat: rc_locations | concat: rc_factions | sort: 'date' | reverse -%}
+      {%- assign rc_all = rc_posts | concat: rc_people | concat: rc_locations | concat: rc_factions | sort: 'date' | reverse -%}
       {%- assign rc_count = 0 -%}
       {%- for item in rc_all -%}
         {%- if rc_count < 7 and item.title -%}
@@ -31,22 +31,22 @@
   <!-- ── NPCs ────────────────────────────────────────────── -->
   <details open>
     <summary class="sidebar-section-header">
-      <span class="text-cyan-500 text-[10px]">◈</span> NPCs
+      <span class="text-cyan-500 text-[10px]">◈</span> People
     </summary>
     <ul class="space-y-0.5 mt-1">
-      {%- for npc in site.npcs -%}
+      {%- for person in site.people -%}
         <li>
-          <a href="{{ npc.url | relative_url }}"
-             class="sidebar-link {% if page.url == npc.url %}sidebar-link--active{% endif %}">
-            {{ npc.title | truncate: 30 }}
+          <a href="{{ person.url | relative_url }}"
+             class="sidebar-link {% if page.url == person.url %}sidebar-link--active{% endif %}">
+            {{ person.title | truncate: 30 }}
           </a>
         </li>
       {%- else -%}
-        <li class="sidebar-empty">No NPCs recorded</li>
+        <li class="sidebar-empty">No people recorded</li>
       {%- endfor -%}
     </ul>
-    {%- if site.npcs.size > 0 -%}
-    <a href="{{ '/npcs/' | relative_url }}"
+    {%- if site.people.size > 0 -%}
+    <a href="{{ '/people/' | relative_url }}"
        class="inline-block mt-2 ml-3 text-[10px] tracking-wider uppercase text-cyan-600 hover:text-cyan-400 transition-colors">
       View all &rsaquo;
     </a>

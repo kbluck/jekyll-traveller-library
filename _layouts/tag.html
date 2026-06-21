@@ -20,11 +20,11 @@ layout: default
 {%- comment -%} Gather matching entries from every collection and posts {%- endcomment -%}
 {%- comment -%} Derive slug from filename: "_tags/free-trader.md" → "free-trader" {%- endcomment -%}
 {%- assign _key = page.path | split: "/" | last | split: "." | first -%}
-{%- assign _t_npcs    = site.npcs      | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
+{%- assign _t_people  = site.people    | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
 {%- assign _t_locs    = site.locations | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
 {%- assign _t_facs    = site.factions  | where_exp: "d", "d.tags contains _key" | sort: "title" -%}
 {%- assign _t_posts   = site.posts     | where_exp: "d", "d.tags contains _key" -%}
-{%- assign _total     = _t_npcs.size | plus: _t_locs.size | plus: _t_facs.size | plus: _t_posts.size -%}
+{%- assign _total     = _t_people.size | plus: _t_locs.size | plus: _t_facs.size | plus: _t_posts.size -%}
 
 {%- comment -%} Subtitle row {%- endcomment -%}
 <p class="clear-both -mt-2 mb-8 text-xs text-gray-600 tracking-widest uppercase">
@@ -51,15 +51,15 @@ layout: default
   collection type. Each block guards on collection.size > 0.
 {%- endcomment -%}
 
-{%- if _t_npcs.size > 0 -%}
+{%- if _t_people.size > 0 -%}
 <section class="mb-8">
   <h3 class="sidebar-section-header">
     <span class="text-cyan-500 text-[10px]">◈</span>
-    NPCs
-    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_npcs.size }}</span>
+    People
+    <span class="ml-auto text-gray-700 font-normal normal-case tracking-normal">{{ _t_people.size }}</span>
   </h3>
   <ul class="mt-1">
-    {%- for item in _t_npcs -%}
+    {%- for item in _t_people -%}
     {%- include tag-entry.html item=item -%}
     {%- endfor -%}
   </ul>

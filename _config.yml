@@ -32,8 +32,8 @@ collections:
   locations:
     permalink: /locations/:path/
     output:    true
-  npcs:
-    permalink: /npcs/:path/
+  people:
+    permalink: /people/:path/
     output:    true
 
 # Author settings
